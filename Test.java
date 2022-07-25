@@ -38,6 +38,18 @@ public class Test {
                 {"1"}
             }
         };
+        String[][] newQuestion = {
+            {"(Копия)Какое утверждение характеризует enum (перечисление)?"},
+            {
+                "Перечисления предоставляют возможные значения для какого-либо элемента",
+                "Перечисления представляют собой дополняемые объекты",
+                "Перечисления объявляются при помощи ключевого слова new",
+                "Перечисления объявляются как обычные переменные - внутри методов"
+            },
+            {"1"}
+        };
+
+        test = addQuestion(test, newQuestion);
 
         for (int qnNumber = 0; qnNumber < test.length; qnNumber++) {
             for (int qnComponent = 0; qnComponent < test[qnNumber].length - 1; qnComponent++) {
@@ -62,5 +74,17 @@ public class Test {
             String result = (Integer.parseInt(test[i][RIGHT_ANSWER][ANSWER_INDEX]) == answers[i]) ? "верно" : "неверно";
             System.out.println("Вопрос №" + (i + 1) + " - " + result + ";");
         }
+    }
+
+    private static String[][][] addQuestion(String[][][] test, String[][] newItem) {
+        String[][][] updatedTest = new String[test.length + 1][test[0].length][];
+    
+        for (int i = 0; i < test.length + 1; i++) { // Вопросы
+            for (int j = 0; j < test[0].length; j++) { // компоненты
+                updatedTest[i][j] = ((updatedTest.length - 1) != i) ? test[i][j] : newItem[j];
+            }
+        }
+    
+        return updatedTest;
     }
 }
