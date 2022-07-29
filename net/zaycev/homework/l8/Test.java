@@ -1,3 +1,4 @@
+package net.zaycev.homework.l8;
 import java.util.Scanner;
 
 public class Test {
