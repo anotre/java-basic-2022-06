@@ -1,91 +1,74 @@
 package net.zaycev.homework.l8;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Test {
-    public static void main(String[] args) {
-        final int ANSWER_OPTION = 1;
-        final int RIGHT_ANSWER = 2;
-        final int ANSWER_INDEX = 0;
+    private ArrayList<Question> questions = new ArrayList<>();
 
-        String[][][] test = {
-            {
-                {"Что такое массив?"},
-                {
-                    "Набор элементов одного из ссылочных типов, на который ссылаются по одному имени.",
-                    "Набор элементов одного из примитивных типов, на который ссылаются по одному имени.",
-                    "Набор элементов любого типа, на который ссылаются по одному имени.",
-                    "Набор элементов одного типа, на который ссылаются по одному имени."
-                },
-                {"4"}
-            },
-            {
-                {"Какое из перечисленных ключевых слов не существует в языке Java?"},
-                {
-                    "for",
-                    "elseif",
-                    "class",
-                    "byte"
-                },
-                {"2"}
-            },
-            {
-                {"Какое утверждение характеризует enum (перечисление)?"},
-                {
-                    "Перечисления предоставляют возможные значения для какого-либо элемента",
-                    "Перечисления представляют собой дополняемые объекты",
-                    "Перечисления объявляются при помощи ключевого слова new",
-                    "Перечисления объявляются как обычные переменные - внутри методов"
-                },
-                {"1"}
-            }
-        };
-        String[][] newQuestion = {
-            {"(Копия)Какое утверждение характеризует enum (перечисление)?"},
-            {
-                "Перечисления предоставляют возможные значения для какого-либо элемента",
-                "Перечисления представляют собой дополняемые объекты",
-                "Перечисления объявляются при помощи ключевого слова new",
-                "Перечисления объявляются как обычные переменные - внутри методов"
-            },
-            {"1"}
-        };
+    public Test() {
 
-        test = addQuestion(test, newQuestion);
+    }
 
-        for (int qnNumber = 0; qnNumber < test.length; qnNumber++) {
-            for (int qnComponent = 0; qnComponent < test[qnNumber].length - 1; qnComponent++) {
-                final String INDENT = (qnComponent == ANSWER_OPTION) ? "   " : "";
-
-                for (int item = 0; item < test[qnNumber][qnComponent].length; item++) {
-                    System.out.println(INDENT + test[qnNumber][qnComponent][item]);
-                }
-            }
-        }
-
-        int[] answers = new int[test.length];
-        Scanner inputScanner = new Scanner(System.in);
-
+    private int[] getUserAnswers() {
+        int[] answers = new int[this.questions.size()];
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Пожалуйста, введите ответы на вопросы:");
-        for (int i = 0; i < test.length; i++) {
-            answers[i] = inputScanner.nextInt();
+        for  (int i = 0; i < this.questions.size(); i++) {
+            answers[i] = scanner.nextInt();
         }
-        inputScanner.close();
-     
-        for (int i = 0; i < test.length; i++) {
-            String result = (Integer.parseInt(test[i][RIGHT_ANSWER][ANSWER_INDEX]) == answers[i]) ? "верно" : "неверно";
-            System.out.println("Вопрос №" + (i + 1) + " - " + result + ";");
+        scanner.close();
+        return answers;
+    }
+
+    private boolean[] checkUserAnswers(int[] answers, int[] keys) {
+        boolean[] results = new boolean[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            results[i] = (answers[i] == keys[i]) ? true : false;
+        }
+        return results;
+    }
+
+    private void outputTest() {
+        final String INDENT = "   ";
+        for (int i = 0; i < this.questions.size(); i++) {
+            System.out.println(this.questions.get(i).getQuestion());
+            for (String answer: this.questions.get(i).getAnswers()) {
+                System.out.println(INDENT + answer);
+            }
         }
     }
 
-    private static String[][][] addQuestion(String[][][] test, String[][] newItem) {
-        String[][][] updatedTest = new String[test.length + 1][test[0].length][];
-    
-        for (int i = 0; i < test.length + 1; i++) { // Вопросы
-            for (int j = 0; j < test[0].length; j++) { // компоненты
-                updatedTest[i][j] = ((updatedTest.length - 1) != i) ? test[i][j] : newItem[j];
-            }
+    private void outputResults(boolean[] testResults) {
+        System.out.println("Результаты тестирования:");
+        for (int i = 0; i < this.questions.size(); i++) {
+            String resultString = (testResults[i]) ? "верно" : "неверно";
+            System.out.println("Вопрос №" + (i + 1) + " - " + resultString + ";");
         }
-    
-        return updatedTest;
+    }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
+
+    private int[] getTestKeys() {
+        int[] testKeys = new int[this.questions.size()];
+        for (int i = 0; i < this.questions.size(); i++) {
+            testKeys[i] = this.questions.get(i).getKey();
+        }
+        return testKeys;
+    }
+
+    public void startTest() {
+        if (this.questions.size() != 0) {
+            this.outputTest();
+            int[] userAnswers = this.getUserAnswers();
+            int[] testKeys = this.getTestKeys();
+            boolean[] testResults = this.checkUserAnswers(userAnswers, testKeys);
+            this.outputResults(testResults);
+        } else {
+            System.out.println("Нет вопросов для проведения тестирования");
+        }
+        
+
     }
 }
