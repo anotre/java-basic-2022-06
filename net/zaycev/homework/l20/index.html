@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Форма добавления информации о студенте</h2>
+    <form action="" class="form" id="form" method="get">
+        <label for="form-name">Имя студента</label>
+        <input class="form-name" type="text" name="student-name" required>
+        <label for="student-birthday">Дата рождения</label>
+        <input type="date" name="student-birthday" required>
+        <label for="student-sex">Пол:</label>
+        <select name="student-sex" id="" required>
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+        </select>
+        <label for="student-age">Возраст</label>
+        <input type="number" name="student-age" min="0" max="150" required>
+        <input type="submit" value="Добавить запись">
+    </form>
+
+    
+    <h2>Таблица студентов</h2>
+    <table class="table" id="table">
+        <colgroup>
+            <col span="1" style="width: 40%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 20%;">
+         </colgroup>
+        <thead class="table-header" id="table-header">
+            <tr>
+                <td>Имя студента</td>
+                <td>Дата рождения</td>
+                <td>Пол</td>
+                <td>Возраст</td>
+            </tr>
+        </thead>
+        <tbody class="table-body" id="table-body">
+        </tbody>
+    </table>
+<script src="script.js"></script>
+</body>
+</html>
